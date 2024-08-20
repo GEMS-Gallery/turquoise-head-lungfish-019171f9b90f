@@ -1,5 +1,4 @@
 import Nat "mo:base/Nat";
-import Order "mo:base/Order";
 
 import Array "mo:base/Array";
 import List "mo:base/List";
@@ -7,6 +6,7 @@ import Time "mo:base/Time";
 import Int "mo:base/Int";
 import Text "mo:base/Text";
 import Debug "mo:base/Debug";
+import Order "mo:base/Order";
 
 actor {
   // Define the Post type
@@ -40,10 +40,10 @@ actor {
 
   // Get all posts, sorted by recency
   public query func getPosts() : async [Post] {
-    let sortedPosts = List.sort(posts, func (a: Post, b: Post) : Order.Order {
+    let postsArray = List.toArray(posts);
+    Array.sort(postsArray, func (a: Post, b: Post) : Order.Order {
       Int.compare(b.timestamp, a.timestamp)
-    });
-    List.toArray(sortedPosts)
+    })
   };
 
   // System functions for upgrades
